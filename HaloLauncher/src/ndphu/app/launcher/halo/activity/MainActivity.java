@@ -106,7 +106,7 @@ public class MainActivity extends Activity implements OnDialogClosedListener, On
 		ResolveInfo info = mAppAdapter.getItem(position);
 		Intent intentForPackage = mPM.getLaunchIntentForPackage(info.activityInfo.packageName);
 		// Set Flag to start in Halo/Muti-window
-		intentForPackage.setFlags(0x00002000);
+//		intentForPackage.setFlags(0x00002000);
 		startActivity(intentForPackage);
 	}
 
