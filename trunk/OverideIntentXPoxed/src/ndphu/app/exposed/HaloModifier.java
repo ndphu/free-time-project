@@ -10,7 +10,7 @@ import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
-public class Tutorial implements IXposedHookLoadPackage {
+public class HaloModifier implements IXposedHookLoadPackage{
 
 	@Override
 	public void handleLoadPackage(LoadPackageParam lpparam) throws Throwable {
