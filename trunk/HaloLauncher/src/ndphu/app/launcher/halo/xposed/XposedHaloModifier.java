@@ -43,10 +43,10 @@ public class XposedHaloModifier implements IXposedHookLoadPackage, IXposedHookCm
 						XposedBridge.log("Package Name:" + intent.getComponent().getPackageName());
 						
 						String packageName = intent.getComponent().getPackageName();
-						if (isActive(packageName)) {
-							XposedBridge.log("Launch in HALO mode: " + intent.getPackage());
+//						if (isActive(packageName)) {
+							XposedBridge.log("Launch in HALO mode: " + packageName);
 							intent.setFlags(intent.getFlags() | 0x00002000);
-						}
+//						}
 					}
 
 					@Override
