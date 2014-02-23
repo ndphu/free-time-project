@@ -17,6 +17,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,6 +33,9 @@ public class MainActivity extends Activity implements OnDialogClosedListener, On
 	
 	public static final String PREF_SELECTED_APPS = "pref_selected_apps";
 	public static final String PREF_SELECTED_APPS_KEY = "pref_selected_apps_key";
+	
+	public static final String SDCARD_DIR = Environment.getExternalStorageDirectory().getAbsolutePath() + "/halo_launcher";
+	public static final String SDCARD_DATA_FILE = MainActivity.SDCARD_DIR + "/data";
 	
 	ListView mListView;
 	ApplicationAdapter mAppAdapter;

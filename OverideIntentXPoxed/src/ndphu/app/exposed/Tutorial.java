@@ -14,7 +14,6 @@ public class Tutorial implements IXposedHookLoadPackage {
 
 	@Override
 	public void handleLoadPackage(LoadPackageParam lpparam) throws Throwable {
-		XposedBridge.log("Load package: " + lpparam.packageName);
 		if (!lpparam.packageName.equals("com.android.systemui"))
 			return;
 
