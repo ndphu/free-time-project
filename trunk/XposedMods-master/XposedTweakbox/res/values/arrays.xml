@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="longHomePress">
+        <item name="nothing">Do nothing</item>
+        <item name="classical_recent">Show classical recent apps list (icons only)</item>
+        <item name="new_recent">Show new recent apps list (with thumbnails) </item>
+    </string-array>
+    <string-array name="longHomePressValues">
+        <item name="nothing">0</item>
+        <item name="classical_recent">1</item>
+        <item name="new_recent">2</item>
+    </string-array>
+
+</resources>

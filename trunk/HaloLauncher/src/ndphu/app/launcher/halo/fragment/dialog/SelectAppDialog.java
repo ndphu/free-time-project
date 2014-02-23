@@ -1,10 +1,13 @@
 package ndphu.app.launcher.halo.fragment.dialog;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import ndphu.app.launcher.halo.R;
 import ndphu.app.launcher.halo.activity.MainActivity;
@@ -16,7 +19,6 @@ import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
-import android.content.DialogInterface.OnDismissListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -53,7 +55,7 @@ public class SelectAppDialog extends DialogFragment implements OnItemClickListen
 				dialog.dismiss();
 			}
 		});
-		
+
 		builder.setTitle("Select Applications");
 
 		mAppList = new ListView(getActivity());
@@ -91,15 +93,15 @@ public class SelectAppDialog extends DialogFragment implements OnItemClickListen
 		for (String _packageName : packageNameArr) {
 			selectedAppList.add(_packageName);
 		}
-		
+
 		StringBuilder sb = new StringBuilder();
 		String packageName = info.activityInfo.packageName;
 		if (selectedAppList.contains(packageName)) {
 			selectedAppList.remove(packageName);
-		}  else {
+		} else {
 			selectedAppList.add(packageName);
 		}
-		
+
 		for (String _packageName : selectedAppList) {
 			sb.append(_packageName);
 			sb.append(";");
@@ -109,21 +111,46 @@ public class SelectAppDialog extends DialogFragment implements OnItemClickListen
 		if (prefStr.length() > 0) {
 			prefStr = prefStr.substring(0, prefStr.length() - 1);
 		}
-		
+
 		mPref.edit().putString(MainActivity.PREF_SELECTED_APPS_KEY, prefStr).commit();
+		
+		// Write to file
+		File dir = new File(MainActivity.SDCARD_DIR);
+		if (!dir.isDirectory()) {
+			dir.mkdir();
+		}
+
+		File dataFile = new File(MainActivity.SDCARD_DATA_FILE);
+		BufferedWriter bw = null;
+		try {
+			dataFile.delete();
+			dataFile.createNewFile();
+			bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(dataFile)));
+			bw.write(prefStr);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (bw != null) {
+				try {
+					bw.close();
+				} catch (Exception ingnore) {
+					// Do nothing
+				}
+			}
+		}
 
 		mAppAdapter.notifyDataSetChanged();
 	}
-	
+
 	public interface OnDialogClosedListener {
 		public void onDialogClosed(Object data);
 	}
-	
+
 	@Override
 	public void onDismiss(DialogInterface dialog) {
 		super.onDismiss(dialog);
 		if (getActivity() instanceof OnDialogClosedListener) {
-			((OnDialogClosedListener)getActivity()).onDialogClosed(null);
+			((OnDialogClosedListener) getActivity()).onDialogClosed(null);
 		}
 	}
 
