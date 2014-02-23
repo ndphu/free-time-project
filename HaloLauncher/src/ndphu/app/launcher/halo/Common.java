@@ -7,5 +7,5 @@ public class Common {
 	public static final String PREF_DEFAULT = "default";
 	public static final String PREF_ACTIVE = "/active";
 
-	public static final String DEFAULT_LAUNCHER = "com.android.launcher3";
+	public static final String DEFAULT_LAUNCHER = "com.fb.glovebox";
 }
