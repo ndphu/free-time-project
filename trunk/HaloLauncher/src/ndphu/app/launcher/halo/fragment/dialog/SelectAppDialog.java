@@ -1,14 +1,9 @@
 package ndphu.app.launcher.halo.fragment.dialog;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import ndphu.app.launcher.halo.Common;
 import ndphu.app.launcher.halo.R;
 import ndphu.app.launcher.halo.activity.MainActivity;
 import ndphu.app.launcher.halo.list.adapter.ApplicationAdapter;
@@ -42,7 +37,7 @@ public class SelectAppDialog extends DialogFragment implements OnItemClickListen
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mPM = getActivity().getPackageManager();
-		mPref = getActivity().getSharedPreferences(MainActivity.PREF_SELECTED_APPS, Context.MODE_PRIVATE);
+		mPref = getActivity().getSharedPreferences(MainActivity.PREF_SELECTED_APPS, Context.MODE_APPEND);
 	}
 
 	@Override
@@ -87,58 +82,10 @@ public class SelectAppDialog extends DialogFragment implements OnItemClickListen
 	public void onItemClick(AdapterView<?> adapterView, View view, int position, long arg3) {
 		ResolveInfo info = mAppAdapter.getItem(position);
 
-		String selectedAppSet = mPref.getString(MainActivity.PREF_SELECTED_APPS_KEY, "");
-		String[] packageNameArr = selectedAppSet.split(";");
-		List<String> selectedAppList = new ArrayList<String>();
-		for (String _packageName : packageNameArr) {
-			selectedAppList.add(_packageName);
-		}
-
-		StringBuilder sb = new StringBuilder();
 		String packageName = info.activityInfo.packageName;
-		if (selectedAppList.contains(packageName)) {
-			selectedAppList.remove(packageName);
-		} else {
-			selectedAppList.add(packageName);
-		}
-
-		for (String _packageName : selectedAppList) {
-			sb.append(_packageName);
-			sb.append(";");
-		}
-
-		String prefStr = sb.toString();
-		if (prefStr.length() > 0) {
-			prefStr = prefStr.substring(0, prefStr.length() - 1);
-		}
-
-		mPref.edit().putString(MainActivity.PREF_SELECTED_APPS_KEY, prefStr).commit();
-		
-		// Write to file
-		File dir = new File(MainActivity.SDCARD_DIR);
-		if (!dir.isDirectory()) {
-			dir.mkdir();
-		}
-
-		File dataFile = new File(MainActivity.SDCARD_DATA_FILE);
-		BufferedWriter bw = null;
-		try {
-			dataFile.delete();
-			dataFile.createNewFile();
-			bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(dataFile)));
-			bw.write(prefStr);
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (bw != null) {
-				try {
-					bw.close();
-				} catch (Exception ingnore) {
-					// Do nothing
-				}
-			}
-		}
-
+		String packageActiveKey = packageName + Common.PREF_ACTIVE;
+		boolean isActive = mPref.getBoolean(packageActiveKey, false);
+		mPref.edit().putBoolean(packageActiveKey, !isActive).commit();
 		mAppAdapter.notifyDataSetChanged();
 	}
 
