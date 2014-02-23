@@ -1,6 +1,8 @@
 package ndphu.app.launcher.halo.xposed;
 
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
+import ndphu.app.launcher.halo.Common;
+import ndphu.app.launcher.halo.activity.MainActivity;
 import android.app.AndroidAppHelper;
 import android.content.Intent;
 import de.robv.android.xposed.IXposedHookCmdInit;
@@ -17,15 +19,13 @@ public class XposedHaloModifier implements IXposedHookLoadPackage, IXposedHookCm
 
 	@Override
 	public void handleLoadPackage(LoadPackageParam lpparam) throws Throwable {
-		XposedBridge.log("" + AndroidAppHelper.currentPackageName());
-		// Read from file
+		prefs.reload();
 		XposedBridge.log("Load Package: " + lpparam.packageName);
-		XposedBridge.log("" + XposedInit.PACKAGE_NAME_LIST.size());
-		if (lpparam.packageName.equals(XposedInit.DEFAULT_LAUNCHER)) {
-			XposedBridge.log("Hooking the default launcher: " + XposedInit.DEFAULT_LAUNCHER);
-			XposedInit.initPackageNameList();
+		
+		if (lpparam.packageName.equals(Common.DEFAULT_LAUNCHER)) {
+			XposedBridge.log("Hooking the default launcher: " + Common.DEFAULT_LAUNCHER);
 			hookActiviyClassToApplyHalo(lpparam);
-		} else if (XposedInit.PACKAGE_NAME_LIST.contains(lpparam.packageName)) {
+		} else if (isActive(lpparam.packageName)) {
 			XposedBridge.log("Found package which is configured to run in Halo:" + lpparam.packageName);
 			hookActiviyClassToApplyHalo(lpparam);
 		}
@@ -36,13 +36,14 @@ public class XposedHaloModifier implements IXposedHookLoadPackage, IXposedHookCm
 				"android.os.Bundle", new XC_MethodHook() {
 					@Override
 					protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+						loadPrefs();
 						Intent intent = (Intent) param.args[0];
 
 						XposedBridge.log("Got intent:" + intent);
 						XposedBridge.log("Package Name:" + intent.getComponent().getPackageName());
-						XposedBridge.log("Package List:" + XposedInit.PACKAGE_NAME_LIST.size());
-
-						if (XposedInit.PACKAGE_NAME_LIST.contains(intent.getComponent().getPackageName())) {
+						
+						String packageName = intent.getComponent().getPackageName();
+						if (isActive(packageName)) {
 							XposedBridge.log("Launch in HALO mode: " + intent.getPackage());
 							intent.setFlags(intent.getFlags() | 0x00002000);
 						}
@@ -55,8 +56,7 @@ public class XposedHaloModifier implements IXposedHookLoadPackage, IXposedHookCm
 	}
 
 	public static void loadPrefs() {
-		prefs = new XSharedPreferences(Common.MY_PACKAGE_NAME, Common.PREFS);
-		prefs.makeWorldReadable();
+		prefs = new XSharedPreferences(MainActivity.prefsFile);
 	}
 
 	public static boolean isActive(String packageName) {
@@ -69,11 +69,12 @@ public class XposedHaloModifier implements IXposedHookLoadPackage, IXposedHookCm
 
 	@Override
 	public void initZygote(de.robv.android.xposed.IXposedHookZygoteInit.StartupParam startupParam) throws Throwable {
+		loadPrefs();
 	}
 
 	@Override
 	public void initCmdApp(de.robv.android.xposed.IXposedHookCmdInit.StartupParam startupParam) throws Throwable {
-
+		prefs.reload();
 	}
 
 }

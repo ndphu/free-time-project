@@ -36,7 +36,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="ndphu.app.launcher.halo.Settings"
+            android:name="ndphu.app.launcher.halo.activity.Settings"
             android:label="@string/title_activity_settings" >
         </activity>
     </application>

@@ -1,11 +1,13 @@
 package ndphu.app.launcher.halo.activity;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import ndphu.app.launcher.halo.Common;
 import ndphu.app.launcher.halo.R;
 import ndphu.app.launcher.halo.fragment.dialog.SelectAppDialog;
 import ndphu.app.launcher.halo.fragment.dialog.SelectAppDialog.OnDialogClosedListener;
@@ -25,38 +27,42 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
-public class MainActivity extends Activity implements OnDialogClosedListener, OnItemClickListener{
+public class MainActivity extends Activity implements OnDialogClosedListener, OnItemClickListener {
 
 	private FragmentManager mFM;
 	private PackageManager mPM;
 	private SharedPreferences mPref;
-	
+
 	public static final String PREF_SELECTED_APPS = "pref_selected_apps";
 	public static final String PREF_SELECTED_APPS_KEY = "pref_selected_apps_key";
-	
+	public static File prefsFile = new File(Environment.getDataDirectory(), "data/" + Common.MY_PACKAGE_NAME + "/shared_prefs/" + PREF_SELECTED_APPS
+			+ ".xml");
+	public static SharedPreferences prefs;
+
 	public static final String SDCARD_DIR = Environment.getExternalStorageDirectory().getAbsolutePath() + "/halo_launcher";
 	public static final String SDCARD_DATA_FILE = MainActivity.SDCARD_DIR + "/data";
-	
+
 	ListView mListView;
 	ApplicationAdapter mAppAdapter;
 	private List<ResolveInfo> mInstalledAppList;
-	
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		prefsFile.setReadable(true, false);
+		
 		mFM = getFragmentManager();
 		mPM = getPackageManager();
 		mPref = getSharedPreferences(PREF_SELECTED_APPS, MODE_PRIVATE);
-		
+
 		mListView = (ListView) findViewById(R.id.activity_main_selected_app_listview);
 		mAppAdapter = new ApplicationAdapter(this, 0);
 		mAppAdapter.setShowCheckBox(false);
 		mListView.setAdapter(mAppAdapter);
 		mListView.setOnItemClickListener(this);
 	}
-	
+
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -72,10 +78,8 @@ public class MainActivity extends Activity implements OnDialogClosedListener, On
 
 	private void loadSelectedAppListView() {
 		mAppAdapter.clear();
-		String prefStr = mPref.getString(MainActivity.PREF_SELECTED_APPS_KEY, "");
-		List<String> selectedApps = Arrays.asList(prefStr.split(";"));
 		for (ResolveInfo info : mInstalledAppList) {
-			if (selectedApps.contains(info.activityInfo.packageName)) {
+			if (mPref.getBoolean(info.activityInfo.packageName + Common.PREF_ACTIVE,  false)) {
 				mAppAdapter.add(info);
 			}
 		}
@@ -86,7 +90,7 @@ public class MainActivity extends Activity implements OnDialogClosedListener, On
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
-	
+
 	@Override
 	public boolean onMenuItemSelected(int featureId, MenuItem item) {
 		switch (item.getItemId()) {
@@ -110,7 +114,7 @@ public class MainActivity extends Activity implements OnDialogClosedListener, On
 		ResolveInfo info = mAppAdapter.getItem(position);
 		Intent intentForPackage = mPM.getLaunchIntentForPackage(info.activityInfo.packageName);
 		// Set Flag to start in Halo/Muti-window
-//		intentForPackage.setFlags(0x00002000);
+		// intentForPackage.setFlags(0x00002000);
 		startActivity(intentForPackage);
 	}
 

@@ -1,7 +1,8 @@
-package ndphu.app.launcher.halo;
+package ndphu.app.launcher.halo.activity;
 
-import android.os.Bundle;
+import ndphu.app.launcher.halo.R;
 import android.app.Activity;
+import android.os.Bundle;
 import android.view.Menu;
 
 public class Settings extends Activity {
