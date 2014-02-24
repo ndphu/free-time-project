@@ -1,0 +1,18 @@
+NOTE: Regist receiver for Bluetooth state changed, remember to unregist in onPause
+2 state of connection:
+	- Paired (Bonded): 2 devices aware of each other's existence, already share a link-key for authentication when open a connection, capable for etablishing an encrypte connection together.
+	- Connected:  devices already etablished RFCOMM channel and are able to transmit data with each other
+	
+Etablish connection:
+	- Server Side:
+		*	Get BluetoothServerSocket, need UUID to indentify which application. Client should use the same UUID to connect to our application
+		*	Wait for client by using accept(). This is a blocking call.
+		*	Close if don't want to listen any more.
+	- Client Side:
+		*	Get BluetoothSocket from BluetoothDevice. UUID is needed to indentify which Bluetooth application on other device to connect.
+		*	Both Client & Server should share the same UUID (similar to the definition of PORT in TCP)
+		*	Initialize connection by method connect(). This is a blocking call
+		
+		
+	
+		
