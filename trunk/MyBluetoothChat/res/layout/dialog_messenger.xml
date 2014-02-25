@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+    android:layout_marginRight="@dimen/activity_horizontal_margin"
+    android:orientation="vertical"
+    android:weightSum="10" 
+    android:padding="4dp">
+
+    <ListView
+        android:id="@+id/dialog_messenger_listview_messages"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="8" >
+    </ListView>
+
+    <RelativeLayout
+        android:id="@+id/dialog_messenger_container_send_message"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2" >
+
+        <EditText
+            android:id="@+id/dialog_messenger_textview_message_content"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_toLeftOf="@+id/dialog_messenger_button_send"
+            android:inputType="text" />
+
+        <ImageButton
+            android:id="@+id/dialog_messenger_button_send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:contentDescription="@string/app_name"
+            android:src="@android:drawable/ic_menu_send" />
+    </RelativeLayout>
+
+</LinearLayout>
