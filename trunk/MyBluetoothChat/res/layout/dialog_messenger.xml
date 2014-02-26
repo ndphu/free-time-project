@@ -8,12 +8,12 @@
     android:weightSum="10" 
     android:padding="4dp">
 
-    <ListView
+    <!-- <ListView
         android:id="@+id/dialog_messenger_listview_messages"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="8" >
-    </ListView>
+    </ListView> -->
 
     <RelativeLayout
         android:id="@+id/dialog_messenger_container_send_message"
@@ -24,7 +24,7 @@
         <EditText
             android:id="@+id/dialog_messenger_textview_message_content"
             android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_toLeftOf="@+id/dialog_messenger_button_send"
             android:inputType="text" />

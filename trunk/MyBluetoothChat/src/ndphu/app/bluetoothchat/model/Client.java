@@ -1,7 +1,6 @@
 package ndphu.app.bluetoothchat.model;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -19,11 +18,11 @@ public class Client {
 	private BufferedReader mReader;
 	private PrintWriter mWriter;
 
-	public Client(String clientName, BluetoothSocket clientBluetoothSocket) throws IOException {
-		mClientName = clientName;
-		mBluetoothSocket = clientBluetoothSocket;
-		mReader = new BufferedReader(new InputStreamReader(clientBluetoothSocket.getInputStream()));
-		mWriter = new PrintWriter(new OutputStreamWriter(clientBluetoothSocket.getOutputStream()));
+	public Client(BluetoothSocket socket) throws IOException {
+		mClientName = socket.getRemoteDevice().getName();
+		mBluetoothSocket = socket;
+		mReader = new BufferedReader(new InputStreamReader(mBluetoothSocket.getInputStream()));
+		mWriter = new PrintWriter(new OutputStreamWriter(mBluetoothSocket.getOutputStream()));
 	}
 
 	public List<String> getReceivedMessages() {
