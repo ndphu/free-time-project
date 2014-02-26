@@ -1,28 +1,24 @@
-package ndphu.app.bluetoothchat;
+package ndphu.app.bluetoothfilebrowser;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import ndphu.app.bluetoothchat.dialog.MessengerDialog;
-import ndphu.app.bluetoothchat.list.adapter.BluetoothDeviceArrayAdapter;
-import ndphu.app.bluetoothchat.model.Client;
+import ndphu.app.bluetoothfilebrowser.server.BluetoothServer;
+import ndphu.app.bluetoothfilebrowser.ui.dialog.FileBrowserDialog;
+import ndphu.app.bluetoothfilebrowser.ui.list.adapater.BluetoothDeviceArrayAdapter;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothServerSocket;
-import android.bluetooth.BluetoothSocket;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.res.Resources.NotFoundException;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,12 +27,18 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.bluetoothfilebrowser.R;
+
 public class MainActivity extends Activity {
 
-	private static final int DISCOVERABLE_TIMEOUT = 60;
+	private static final int DISCOVERABLE_TIMEOUT = 300;
 
 	public static final int REQUEST_DISCOVERABLE = 1100;
 	public static final int REQUEST_ENABLE_BT = 1000;
+
+	public static UUID APP_UUID;
+	public static String APP_NAME;
+	public static String DEFAULT_DOWNLOAD_DIR;
 
 	private BluetoothAdapter mBluetoothAdapter;
 	private int mLastState = -1;
@@ -58,17 +60,9 @@ public class MainActivity extends Activity {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			BluetoothDevice device = mAvailableDeviceArrayAdapter.getItem(position);
-			try {
-				BluetoothSocket clientSocket = device.createInsecureRfcommSocketToServiceRecord(UUID.fromString(getResources().getString(R.string.app_uuid)));
-				Client client = new Client(clientSocket);
-				MessengerDialog dialog = new MessengerDialog();
-				dialog.setClient(client);
-				dialog.show(getFragmentManager(), "messenger_dialog");
-			} catch (NotFoundException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			FileBrowserDialog dialog = new FileBrowserDialog();
+			dialog.setRemoteDevice(device);
+			dialog.show(getFragmentManager(), "remote_device_browser_dialog");
 		}
 	};
 
@@ -76,6 +70,9 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		APP_NAME = getResources().getString(R.string.app_name);
+		APP_UUID = UUID.fromString(getResources().getString(R.string.app_uuid));
+		DEFAULT_DOWNLOAD_DIR = Environment.getExternalStorageDirectory() + "/" + Environment.DIRECTORY_DOWNLOADS;
 
 		mPairedDeviceArrayAdapter = new BluetoothDeviceArrayAdapter(this, 0);
 		mPairedDevicesListView = (ListView) findViewById(R.id.activity_main_listview_paired_bluetooth_devices);
@@ -101,6 +98,11 @@ public class MainActivity extends Activity {
 					}).show();
 		}
 		registerReceivers();
+		try {
+			startServer();
+		} catch (IOException e) {
+			new AlertDialog.Builder(this).setTitle("Error").setMessage(e.getMessage()).create().show();
+		}
 	}
 
 	private void registerReceivers() {
@@ -110,39 +112,17 @@ public class MainActivity extends Activity {
 		registerReceiver(mDiscoveryFinishedReceiver, mDiscoveryFinishedIntentFilter);
 		registerReceiver(mScanModeReceiver, mScanModeIntentFilter);
 	}
-	
-	protected void startClientThread(final Client mClient) {
-		new Thread(new Runnable() {
-
-			@Override
-			public void run() {
-				try {
-					String line = null;
-					while (true) {
-						System.out.println("Reading message...");
-						line = mClient.getReader().readLine();
-						System.out.println("Client " + mClient.getClientName() + " sent: " + line);
-						mClient.getReceivedMessages().add(line);
-					}
-				} catch (Exception ex) {
-
-				}
-			}
-		}).start();
-	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
 		if (mBluetoothAdapter.isEnabled()) {
-			if (mServerSocket == null) {
-				startServer(false);
-			}
 			mStatusTextView.setText(R.string.bluetooth_is_ready);
 			if (mBluetoothAdapter.isDiscovering()) {
 				mStatusTextView.setText(R.string.scanning_in_progress);
 			} else {
-				mStatusTextView.setText(R.string.bluetooth_is_ready);
+				mAvailableDeviceArrayAdapter.clear();
+				mBluetoothAdapter.startDiscovery();
 			}
 			loadPairedDeviceList();
 		} else {
@@ -233,6 +213,12 @@ public class MainActivity extends Activity {
 			requestDiscoverable();
 			return true;
 		}
+		case R.id.action_test_server: {
+			FileBrowserDialog dialog = new FileBrowserDialog();
+			dialog.setRemoteDevice(null);
+			dialog.show(getFragmentManager(), "file_browser_dialog");
+			return true;
+		}
 		}
 		return super.onMenuItemSelected(featureId, item);
 	}
@@ -299,7 +285,11 @@ public class MainActivity extends Activity {
 				}
 				case BluetoothAdapter.STATE_ON: {
 					mStatusTextView.setText(R.string.bluetooth_is_ready);
-					startServer(true);
+					try {
+						startServer();
+					} catch (IOException e) {
+						new AlertDialog.Builder(MainActivity.this).setTitle("Error").setMessage(e.getMessage()).create().show();
+					}
 					break;
 				}
 				case BluetoothAdapter.STATE_TURNING_ON: {
@@ -385,85 +375,16 @@ public class MainActivity extends Activity {
 		}
 	};
 
-	// TODO: CHAT SERVER
+	// TODO: Message Sever
 
-	private BluetoothServerSocket mServerSocket;
-	private List<Client> mClientList = new ArrayList<Client>();
+	private BluetoothServer mServer;
 
-	private void startServer(boolean cleanUpRequired) {
-		System.out.println("Starting server...");
-		if (cleanUpRequired) {
-			cleanUpServer();
-		}
-
-		try {
-			String appName = getResources().getString(R.string.app_name);
-			System.out.println("App name = " + appName);
-			UUID uuid = UUID.fromString(getResources().getString(R.string.app_uuid));
-			System.out.println(uuid.toString());
-			System.out.println();
-			System.out.println("Getting server socket using name = " + appName + " and UUID = " + uuid.toString());
-			mServerSocket = mBluetoothAdapter.listenUsingInsecureRfcommWithServiceRecord(appName, uuid);
-			System.out.println("Obtained");
-			startServerThread();
-		} catch (NotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		System.out.println("Server started");
-	}
-
-	private void startServerThread() {
-		new Thread(new Runnable() {
-
-			@Override
-			public void run() {
-				try {
-					while (true) {
-						BluetoothSocket newClientSocket = mServerSocket.accept();
-						Client client = new Client(newClientSocket);
-						System.out.println("New Client Connected. Name = " + newClientSocket.getRemoteDevice().getName() + "; MAC = "
-								+ newClientSocket.getRemoteDevice().getAddress());
-						mClientList.add(client);
-						startClientThread(client);
-					}
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}).start();
+	private void startServer() throws IOException {
+		mServer = new BluetoothServer(this, mBluetoothAdapter);
+		mServer.startServer();
 	}
 
 	private void stopServer() {
-		cleanUpServer();
+		mServer.stopServer();
 	}
-
-	private void cleanUpServer() {
-		System.out.println("Clean up server");
-		for (Client client : mClientList) {
-			cleanUpClient(client);
-		}
-		mClientList.clear();
-		if (mServerSocket != null) {
-			try {
-				System.out.println("Close server socket");
-				mServerSocket.close();
-				System.out.println("Closed server socket");
-			} catch (IOException e) {
-				e.printStackTrace();
-			} finally {
-				mServerSocket = null;
-			}
-		}
-	}
-
-	private void cleanUpClient(Client client) {
-		try {
-			client.getBluetoothSocket().close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
 }

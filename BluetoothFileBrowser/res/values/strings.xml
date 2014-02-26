@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="app_uuid">fe2cfd1b-446b-4c6e-a91b-8196867efaf9</string>
+    <string name="app_name">Bluetooth File Browser</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="scan_devices">Scan Devices</string>
+    <string name="allow_discoverable">Allow Discoverable</string>
+    <string name="bluetooth_is_off">Bluetooth is off</string>
+    <string name="bluetooth_is_ready">Bluetooth is ready</string>
+    <string name="turning_on_bluetooth_">Turning on Bluetooth...</string>
+    <string name="turning_off_bluetooth_">Turning on Bluetooth...</string>
+    <string name="paired_devices">Paired Devices</string>
+    <string name="avaiable_devices">Avaiable Devices</string>
+    <string name="scanning_in_progress">Scanning In Progress...</string>
+    <string name="not_supported">Not Supported</string>
+    <string name="bluetooth_not_supported_message">Bluetooth is not suported on this device.</string>
+    <string name="request_turn_on_bluetooth_message">Please turn on Bluetooth to continue.</string>
+    <string name="turn_on_bluetooth">Turn On Bluetooth</string>
+    <string name="status_scanning_finished">Scanning Finished!</string>
+    <string name="status_device_is_currently_visible">Device is currently visible</string>
+    <string name="button_turn_on">Turn On</string>
+    <string name="button_exit">Exit</string>
+
+</resources>

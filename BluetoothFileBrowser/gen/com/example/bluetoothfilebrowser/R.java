@@ -5,7 +5,7 @@
  * should not be modified by hand.
  */
 
-package ndphu.app.bluetoothchat;
+package com.example.bluetoothfilebrowser;
 
 public final class R {
     public static final class attr {
@@ -21,30 +21,38 @@ public final class R {
         public static final int activity_vertical_margin=0x7f040001;
     }
     public static final class drawable {
-        public static final int ic_launcher=0x7f020000;
+        public static final int ic_directory=0x7f020000;
+        public static final int ic_file=0x7f020001;
+        public static final int ic_launcher=0x7f020002;
     }
     public static final class id {
-        public static final int action_request_discoverable=0x7f08000e;
-        public static final int action_scan_devices=0x7f08000d;
+        public static final int action_request_discoverable=0x7f080012;
+        public static final int action_scan_devices=0x7f080011;
+        public static final int action_test_server=0x7f080013;
         public static final int activity_main_container_available_devices=0x7f080002;
         public static final int activity_main_container_paired_devices=0x7f080000;
         public static final int activity_main_header_available_devices=0x7f080003;
         public static final int activity_main_listview_available_bluetooth_devices=0x7f080004;
         public static final int activity_main_listview_paired_bluetooth_devices=0x7f080001;
         public static final int activity_main_textview_status=0x7f080005;
-        public static final int dialog_messenger_button_send=0x7f080008;
-        public static final int dialog_messenger_container_send_message=0x7f080006;
-        public static final int dialog_messenger_textview_message_content=0x7f080007;
-        public static final int dialog_scan_devices_result_listview=0x7f080009;
-        public static final int listview_item_bluetooth_device_icon=0x7f08000a;
-        public static final int listview_item_bluetooth_device_mac_address=0x7f08000c;
-        public static final int listview_item_bluetooth_device_name=0x7f08000b;
+        public static final int dialog_file_browser_button_back=0x7f080008;
+        public static final int dialog_file_browser_button_close=0x7f080009;
+        public static final int dialog_file_browser_container_buttons=0x7f080007;
+        public static final int dialog_file_browser_listview=0x7f080006;
+        public static final int dialog_scan_devices_result_listview=0x7f08000a;
+        public static final int listview_item_bluetooth_device_icon=0x7f08000b;
+        public static final int listview_item_bluetooth_device_mac_address=0x7f08000d;
+        public static final int listview_item_bluetooth_device_name=0x7f08000c;
+        public static final int listview_item_file_object_details=0x7f080010;
+        public static final int listview_item_file_object_icon=0x7f08000e;
+        public static final int listview_item_file_object_name=0x7f08000f;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
-        public static final int dialog_messenger=0x7f030001;
+        public static final int dialog_file_browser=0x7f030001;
         public static final int dialog_scan_devices=0x7f030002;
         public static final int listview_item_bluetooth_device=0x7f030003;
+        public static final int listview_item_file_object=0x7f030004;
     }
     public static final class menu {
         public static final int main=0x7f070000;
@@ -83,6 +91,17 @@ public final class R {
             res/values-vXX/styles.xml, while customizations related to
             backward-compatibility can go here.
         
+
+        Base application theme for API 11+. This theme completely replaces
+        AppBaseTheme from res/values/styles.xml on API 11+ devices.
+    
+ API 11 theme customizations can go here. 
+
+        Base application theme for API 14+. This theme completely replaces
+        AppBaseTheme from BOTH res/values/styles.xml and
+        res/values-v11/styles.xml on API 14+ devices.
+    
+ API 14 theme customizations can go here. 
          */
         public static final int AppBaseTheme=0x7f060000;
         /**  Application theme. 
