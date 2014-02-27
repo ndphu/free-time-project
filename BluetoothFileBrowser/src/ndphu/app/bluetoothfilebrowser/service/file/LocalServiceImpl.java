@@ -1,12 +1,14 @@
 package ndphu.app.bluetoothfilebrowser.service.file;
 
 import java.io.File;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import ndphu.app.bluetoothfilebrowser.model.AbstractFileObject;
+import ndphu.app.bluetoothfilebrowser.model.FileObject;
+import ndphu.app.bluetoothfilebrowser.server.IDownloadListener;
 
 import org.apache.http.MethodNotSupportedException;
 import org.json.JSONException;
@@ -24,7 +26,7 @@ public class LocalServiceImpl implements IFileService {
 	}
 
 	@Override
-	public List<AbstractFileObject> listFile(String path) throws Exception {
+	public List<FileObject> listFile(String path) throws Exception {
 		try {
 			File dir = new File(path);
 			if (!dir.isDirectory()) {
@@ -33,25 +35,27 @@ public class LocalServiceImpl implements IFileService {
 
 			File[] files = dir.listFiles();
 			if (files == null) {
-				return new ArrayList<AbstractFileObject>();
+				return new ArrayList<FileObject>();
 			}
 
-			List<AbstractFileObject> result = new ArrayList<AbstractFileObject>();
-
+			List<FileObject> result = new ArrayList<FileObject>();
+			long size = 0;
 			for (File file : files) {
 				int type = -1;
 				if (file.isDirectory()) {
-					type = AbstractFileObject.TYPE_DIRECTORY;
+					type = FileObject.TYPE_DIRECTORY;
+					size = file.list().length;
 				} else {
-					type = AbstractFileObject.TYPE_FILE;
+					type = FileObject.TYPE_FILE;
+					size = file.length();
 				}
-				result.add(new AbstractFileObject(file.getName(), file.getAbsolutePath(), type));
+				result.add(new FileObject(file.getName(), file.getAbsolutePath(), type, size));
 			}
 			// Sorting result
-			Collections.sort(result, new Comparator<AbstractFileObject>() {
+			Collections.sort(result, new Comparator<FileObject>() {
 
 				@Override
-				public int compare(AbstractFileObject lhs, AbstractFileObject rhs) {
+				public int compare(FileObject lhs, FileObject rhs) {
 					if (lhs.getType() < rhs.getType()) {
 						return -1;
 					}
@@ -79,7 +83,7 @@ public class LocalServiceImpl implements IFileService {
 	}
 
 	@Override
-	public File downloadFile(AbstractFileObject fileObject, String destDir) {
+	public File downloadFile(FileObject fileObject, IDownloadListener listener) {
 		return null;
 	}
 

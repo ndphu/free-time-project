@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.List;
 
 import ndphu.app.bluetoothfilebrowser.MainActivity;
-import ndphu.app.bluetoothfilebrowser.model.AbstractFileObject;
+import ndphu.app.bluetoothfilebrowser.model.FileObject;
 import ndphu.app.bluetoothfilebrowser.service.file.BluetoothFileServiceImpl;
 import ndphu.app.bluetoothfilebrowser.service.file.IFileService;
 import ndphu.app.bluetoothfilebrowser.service.file.LocalServiceImpl;
@@ -66,7 +66,7 @@ public class FileBrowserDialog extends DialogFragment implements OnClickListener
 	}
 
 	private void refresh() {
-		new AsyncTask<Void, Void, List<AbstractFileObject>>() {
+		new AsyncTask<Void, Void, List<FileObject>>() {
 			@Override
 			protected void onPreExecute() {
 				super.onPreExecute();
@@ -78,8 +78,8 @@ public class FileBrowserDialog extends DialogFragment implements OnClickListener
 			}
 
 			@Override
-			protected List<AbstractFileObject> doInBackground(Void... params) {
-				List<AbstractFileObject> listFile = null;
+			protected List<FileObject> doInBackground(Void... params) {
+				List<FileObject> listFile = null;
 				try {
 					listFile = mFileService.listFile(mCurrentPath);
 				} catch (Exception e) {
@@ -89,7 +89,7 @@ public class FileBrowserDialog extends DialogFragment implements OnClickListener
 			}
 
 			@Override
-			protected void onPostExecute(List<AbstractFileObject> result) {
+			protected void onPostExecute(List<FileObject> result) {
 				super.onPostExecute(result);
 				mBackButton.setText("Back");
 				mBackButton.setEnabled(true);
@@ -136,15 +136,15 @@ public class FileBrowserDialog extends DialogFragment implements OnClickListener
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		AbstractFileObject fileObject = mAdapter.getItem(position);
-		if (fileObject.getType() == AbstractFileObject.TYPE_DIRECTORY) {
+		FileObject fileObject = mAdapter.getItem(position);
+		if (fileObject.getType() == FileObject.TYPE_DIRECTORY) {
 			browserPath(fileObject.getPath());
 		} else {
 			openContextMenu(fileObject);
 		}
 	}
 
-	private void openContextMenu(final AbstractFileObject fileObject) {
+	private void openContextMenu(final FileObject fileObject) {
 		// TODO: Add more action
 		new AlertDialog.Builder(getActivity()).setItems(mFileActionList, new DialogInterface.OnClickListener() {
 
@@ -164,19 +164,11 @@ public class FileBrowserDialog extends DialogFragment implements OnClickListener
 		}).create().show();
 	}
 
-	protected void startDownloadThread(final AbstractFileObject fileObject) {
-		new AsyncTask<Void, Void, Void>() {
-
-			@Override
-			protected Void doInBackground(Void... params) {
-				try {
-					mFileService.downloadFile(fileObject, MainActivity.DEFAULT_DOWNLOAD_DIR);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				return null;
-			}
-		}.execute();
+	protected void startDownloadThread(final FileObject fileObject) {
+		DownloadFileDialog dialog = new DownloadFileDialog();
+		dialog.setBluetoothDevice(mRemoteDevice);
+		dialog.setFileObject(fileObject);
+		dialog.show(getFragmentManager(), "download_file");
 	}
 
 	public void setRemoteDevice(BluetoothDevice remoteDevice) {

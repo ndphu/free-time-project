@@ -49,8 +49,12 @@ public class MainActivity extends Activity {
 
 	private ListView mPairedDevicesListView;
 	private ListView mAvailableDevicesListView;
-
 	private TextView mStatusTextView;
+	
+	private View mPairedDevicesContainer;
+	private View mAvailableDevicesContainer;
+	
+	
 
 	private BluetoothDeviceArrayAdapter mPairedDeviceArrayAdapter;
 	private BluetoothDeviceArrayAdapter mAvailableDeviceArrayAdapter;
@@ -60,6 +64,17 @@ public class MainActivity extends Activity {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			BluetoothDevice device = mAvailableDeviceArrayAdapter.getItem(position);
+			FileBrowserDialog dialog = new FileBrowserDialog();
+			dialog.setRemoteDevice(device);
+			dialog.show(getFragmentManager(), "remote_device_browser_dialog");
+		}
+	};
+
+	private OnItemClickListener mOnPairedDeviceClick = new OnItemClickListener() {
+
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			BluetoothDevice device = mPairedDeviceArrayAdapter.getItem(position);
 			FileBrowserDialog dialog = new FileBrowserDialog();
 			dialog.setRemoteDevice(device);
 			dialog.show(getFragmentManager(), "remote_device_browser_dialog");
@@ -77,11 +92,14 @@ public class MainActivity extends Activity {
 		mPairedDeviceArrayAdapter = new BluetoothDeviceArrayAdapter(this, 0);
 		mPairedDevicesListView = (ListView) findViewById(R.id.activity_main_listview_paired_bluetooth_devices);
 		mPairedDevicesListView.setAdapter(mPairedDeviceArrayAdapter);
+		mPairedDevicesListView.setOnItemClickListener(mOnPairedDeviceClick);
+		mPairedDevicesContainer = findViewById(R.id.activity_main_container_paired_devices);
 
 		mAvailableDeviceArrayAdapter = new BluetoothDeviceArrayAdapter(this, 0);
 		mAvailableDevicesListView = (ListView) findViewById(R.id.activity_main_listview_available_bluetooth_devices);
 		mAvailableDevicesListView.setAdapter(mAvailableDeviceArrayAdapter);
 		mAvailableDevicesListView.setOnItemClickListener(mOnAvailableDeviceClick);
+		mAvailableDevicesContainer = findViewById(R.id.activity_main_container_available_devices);
 
 		mStatusTextView = (TextView) findViewById(R.id.activity_main_textview_status);
 
@@ -225,6 +243,13 @@ public class MainActivity extends Activity {
 
 	private void loadPairedDevice() {
 		Set<BluetoothDevice> bondedDevices = mBluetoothAdapter.getBondedDevices();
+		if (bondedDevices.size() == 0) {
+			// Hide the paired container
+			mPairedDevicesListView.setVisibility(View.GONE);
+		} else {
+			// Show the paired container
+			mPairedDevicesListView.setVisibility(View.VISIBLE);
+		}
 		for (BluetoothDevice device : bondedDevices) {
 			mPairedDeviceArrayAdapter.add(device);
 		}

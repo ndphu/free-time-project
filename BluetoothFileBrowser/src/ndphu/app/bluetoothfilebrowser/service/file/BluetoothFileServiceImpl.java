@@ -1,6 +1,9 @@
 package ndphu.app.bluetoothfilebrowser.service.file;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -8,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +27,8 @@ import ndphu.app.bluetoothfilebrowser.MainActivity;
 import ndphu.app.bluetoothfilebrowser.command.Command;
 import ndphu.app.bluetoothfilebrowser.command.impl.DownloadFileCommand;
 import ndphu.app.bluetoothfilebrowser.command.impl.ListFileCommand;
-import ndphu.app.bluetoothfilebrowser.model.AbstractFileObject;
+import ndphu.app.bluetoothfilebrowser.model.FileObject;
+import ndphu.app.bluetoothfilebrowser.server.IDownloadListener;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.util.Log;
@@ -31,7 +36,7 @@ import android.util.Log;
 public class BluetoothFileServiceImpl implements IFileService {
 	private static final String TAG = BluetoothFileServiceImpl.class.getName();
 
-	private static final int READ_BUFFER = 102400;
+	private static final int WRITE_BUFFER_SIZE = 102400;
 
 	private BluetoothDevice mDevice;
 
@@ -45,9 +50,9 @@ public class BluetoothFileServiceImpl implements IFileService {
 	}
 
 	@Override
-	public List<AbstractFileObject> listFile(String path) throws IOException {
+	public List<FileObject> listFile(String path) throws IOException {
 		Log.i(TAG, "Browse path: " + path);
-		List<AbstractFileObject> result = new ArrayList<AbstractFileObject>();
+		List<FileObject> result = new ArrayList<FileObject>();
 		BluetoothSocket socket = null;
 		PrintStream printer = null;
 		BufferedReader reader = null;
@@ -93,14 +98,14 @@ public class BluetoothFileServiceImpl implements IFileService {
 		return result;
 	}
 
-	private void handleResponse(String response, List<AbstractFileObject> result) {
+	private void handleResponse(String response, List<FileObject> result) {
 		Gson gson = new Gson();
 		JSONArray array;
 		try {
 			array = new JSONArray(response);
 			for (int i = 0; i < array.length(); ++i) {
 				JSONObject _object = array.getJSONObject(i);
-				AbstractFileObject fileObject = gson.fromJson(_object.toString(), AbstractFileObject.class);
+				FileObject fileObject = gson.fromJson(_object.toString(), FileObject.class);
 				result.add(fileObject);
 			}
 		} catch (JSONException e) {
@@ -112,8 +117,7 @@ public class BluetoothFileServiceImpl implements IFileService {
 		return mDevice;
 	}
 
-	@Override
-	public File downloadFile(AbstractFileObject fileObject, String destDir) throws Exception {
+	public File downloadFile(FileObject fileObject, IDownloadListener listener) throws Exception {
 		Log.i(TAG, "Download file: " + fileObject.getPath());
 		BluetoothSocket socket = null;
 		PrintStream printer = null;
@@ -129,7 +133,7 @@ public class BluetoothFileServiceImpl implements IFileService {
 			printer.flush();
 			Log.i(TAG, "Sent command string: " + commandString);
 			Log.i(TAG, "Waiting for server response: " + commandString);
-			return writeStreamToFile(fileObject, socket.getInputStream());
+			return writeStreamToFile(fileObject, socket.getInputStream(), listener);
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -140,28 +144,43 @@ public class BluetoothFileServiceImpl implements IFileService {
 		return null;
 	}
 
-	private File writeStreamToFile(AbstractFileObject fileObject, InputStream inputStream) throws FileNotFoundException, IOException {
+	private File writeStreamToFile(FileObject fileObject, InputStream inputStream, IDownloadListener listener) throws FileNotFoundException,
+			IOException {
 		Log.i(TAG, "Download file " + fileObject.getName() + " to " + MainActivity.DEFAULT_DOWNLOAD_DIR);
 		File file = new File(MainActivity.DEFAULT_DOWNLOAD_DIR + "/" + fileObject.getName());
-		FileOutputStream out = new FileOutputStream(file);
 		file.createNewFile();
+		BufferedOutputStream writer = new BufferedOutputStream(new FileOutputStream(file));
+		BufferedInputStream reader = new BufferedInputStream(inputStream);
 		int read = 0;
 		int total = 0;
-		byte[] buffer = new byte[READ_BUFFER];
+		byte[] buffer = new byte[WRITE_BUFFER_SIZE];
 		try {
-			while ((read = inputStream.read(buffer)) > 0) {
+			while ((read = reader.read(buffer)) > 0) {
 				Log.d(TAG, "Read: " + read);
 				total += read;
-				out.write(buffer, 0, read);
-				out.flush();
+				writer.write(buffer, 0, read);
+				writer.flush();
 				Log.d(TAG, "Total: " + total);
+				if (listener != null) {
+					listener.onUpdateSize(total);
+				}
+				if (total == fileObject.getSize()) {
+					if (listener != null) {
+						listener.onCompleted();
+					}
+					Log.i(TAG, "File downloaded: " + file.getAbsoluteFile() + "; size = " + total);
+					return file;
+				}
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
+			if (listener != null && total < fileObject.getSize()) {
+				listener.onError(ex);
+			}
+		} finally {
+			IOUtils.closeQuietly(reader);
+			IOUtils.closeQuietly(writer);
 		}
-		Log.i(TAG, "File downloaded: " + file.getAbsoluteFile() + "; size = " + total);
-		IOUtils.closeQuietly(out);
-		return file;
+		return null;
 	}
-
 }
