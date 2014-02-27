@@ -1,21 +1,18 @@
 package ndphu.app.bluetoothfilebrowser.command.impl;
 
 import ndphu.app.bluetoothfilebrowser.command.Command;
-import ndphu.app.bluetoothfilebrowser.model.FileObject;
 
-public class DownloadFileCommand extends Command {
+public class GetPropertiesCommand extends Command {
 
-	public static final String COMMAND_PREFIX = "DOWNLOAD_FILE";
-	
+	public static final String COMMAND_PREFIX = "GET_PROPERTIES";
 	private String mPath = null;
-	
-	public DownloadFileCommand(FileObject object) {
-		mPath = object.getPath();
+
+	public GetPropertiesCommand(String path) {
+		mPath = path;
 	}
 
 	@Override
 	public String getCommandPrefix() {
-		
 		return COMMAND_PREFIX;
 	}
 

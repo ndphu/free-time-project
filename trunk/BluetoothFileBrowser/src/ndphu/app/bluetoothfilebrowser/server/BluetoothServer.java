@@ -1,19 +1,23 @@
 package ndphu.app.bluetoothfilebrowser.server;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.List;
 
 import ndphu.app.bluetoothfilebrowser.MainActivity;
 import ndphu.app.bluetoothfilebrowser.command.impl.DownloadFileCommand;
 import ndphu.app.bluetoothfilebrowser.command.impl.ListFileCommand;
-import ndphu.app.bluetoothfilebrowser.model.AbstractFileObject;
+import ndphu.app.bluetoothfilebrowser.model.FileObject;
 import ndphu.app.bluetoothfilebrowser.service.file.LocalServiceImpl;
 
 import org.apache.commons.io.IOUtils;
@@ -36,7 +40,7 @@ public class BluetoothServer {
 	private LocalServiceImpl mFileService;
 	private BluetoothAdapter mBluetoothAdapter;
 
-	private static final int WRITE_BUFFER = 102400;
+	private static final int READ_BUFFER_SIZE = 102400;
 
 	public BluetoothServer(Context context, BluetoothAdapter adapter) {
 		mFileService = new LocalServiceImpl();
@@ -119,7 +123,7 @@ public class BluetoothServer {
 
 	private String handleListFileCommand(String path, OutputStream out) throws Exception {
 		Log.i(TAG, "Query directory: " + path);
-		List<AbstractFileObject> listFile = mFileService.listFile(path);
+		List<FileObject> listFile = mFileService.listFile(path);
 		Gson gson = new Gson();
 		String result = gson.toJson(listFile);
 		PrintWriter writer = new PrintWriter(out);
@@ -130,19 +134,25 @@ public class BluetoothServer {
 	}
 
 	private void handleDownloadFile(String path, OutputStream out) throws FileNotFoundException, IOException {
-		Log.i(TAG, "Download File: " + path);
-
-		FileInputStream in = new FileInputStream(new File(path));
-		int total = 0;
+		Log.i(TAG, "Download File Request: " + path);
+		File fileToDownload = new File(path);
+		FileInputStream in = new FileInputStream(fileToDownload);
+		BufferedInputStream reader = new BufferedInputStream(in);
+		BufferedOutputStream writer = new BufferedOutputStream(out);
 		int read = 0;
-		byte[] buffer = new byte[WRITE_BUFFER];
-		while ((read = in.read(buffer)) > 0) {
-			System.out.println("Read: " + read);
+		long total = 0;
+		byte[] buffer = new byte[READ_BUFFER_SIZE];
+		while ((read = reader.read(buffer)) > 0) {
 			total += read;
-			out.write(buffer, 0, read);
-			out.flush();
-			System.out.println("Total: " + total);
+			writer.write(buffer, 0, read);
+			writer.flush();
+			Log.d(TAG, "Sent: " + total + "B; Fize size: " + fileToDownload.length());
+			if (fileToDownload.length() == total) {
+				Log.i(TAG, "File sent. Size = " + total);
+				break;
+			}
 		}
+		IOUtils.closeQuietly(reader);
+		IOUtils.closeQuietly(writer);
 	}
-
 }
