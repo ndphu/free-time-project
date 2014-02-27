@@ -3,14 +3,12 @@ package ndphu.app.bluetoothfilebrowser.server;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.util.List;
 
@@ -61,7 +59,9 @@ public class BluetoothServer {
 	public void stopServer() {
 		mIsRunning = false;
 		try {
-			mServerSocket.close();
+			if (mServerSocket != null) {
+				mServerSocket.close();
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -154,5 +154,9 @@ public class BluetoothServer {
 		}
 		IOUtils.closeQuietly(reader);
 		IOUtils.closeQuietly(writer);
+	}
+
+	public boolean isRunning() {
+		return mIsRunning;
 	}
 }

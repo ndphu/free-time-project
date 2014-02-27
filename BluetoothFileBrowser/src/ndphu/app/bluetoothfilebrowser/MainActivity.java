@@ -26,8 +26,9 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.example.bluetoothfilebrowser.R;
+import com.ndphu.bluetooth.filebrowser.R;
 
 public class MainActivity extends Activity {
 
@@ -50,11 +51,9 @@ public class MainActivity extends Activity {
 	private ListView mPairedDevicesListView;
 	private ListView mAvailableDevicesListView;
 	private TextView mStatusTextView;
-	
+
 	private View mPairedDevicesContainer;
 	private View mAvailableDevicesContainer;
-	
-	
 
 	private BluetoothDeviceArrayAdapter mPairedDeviceArrayAdapter;
 	private BluetoothDeviceArrayAdapter mAvailableDeviceArrayAdapter;
@@ -116,11 +115,6 @@ public class MainActivity extends Activity {
 					}).show();
 		}
 		registerReceivers();
-		try {
-			startServer();
-		} catch (IOException e) {
-			new AlertDialog.Builder(this).setTitle("Error").setMessage(e.getMessage()).create().show();
-		}
 	}
 
 	private void registerReceivers() {
@@ -140,9 +134,17 @@ public class MainActivity extends Activity {
 				mStatusTextView.setText(R.string.scanning_in_progress);
 			} else {
 				mAvailableDeviceArrayAdapter.clear();
+				mBluetoothAdapter.cancelDiscovery();
 				mBluetoothAdapter.startDiscovery();
 			}
 			loadPairedDeviceList();
+			if (mServer == null || !mServer.isRunning()) {
+				try {
+					startServer();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		} else {
 			requestTurnOnBluetooth();
 		}
@@ -157,6 +159,7 @@ public class MainActivity extends Activity {
 	protected void onDestroy() {
 		mBluetoothAdapter.cancelDiscovery();
 		unregisterReceiver();
+		stopServer();
 		super.onDestroy();
 	}
 
@@ -192,13 +195,20 @@ public class MainActivity extends Activity {
 		// mIsRequesting = false;
 		if (requestCode == MainActivity.REQUEST_ENABLE_BT) {
 			if (resultCode == Activity.RESULT_OK) {
+				try {
+					stopServer();
+					startServer();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			} else if (resultCode == Activity.RESULT_CANCELED) {
 				requestTurnOnBluetooth();
 			}
 		} else if (requestCode == MainActivity.REQUEST_DISCOVERABLE) {
 			if (resultCode == Activity.RESULT_OK) {
+				Toast.makeText(this, "Changed to visible SUCESSFULLY", Toast.LENGTH_SHORT).show();
 			} else if (resultCode == Activity.RESULT_CANCELED) {
-
+				Toast.makeText(this, "Changed to visible FAIL", Toast.LENGTH_SHORT).show();
 			}
 		}
 		super.onActivityResult(requestCode, resultCode, data);
@@ -245,10 +255,10 @@ public class MainActivity extends Activity {
 		Set<BluetoothDevice> bondedDevices = mBluetoothAdapter.getBondedDevices();
 		if (bondedDevices.size() == 0) {
 			// Hide the paired container
-			mPairedDevicesListView.setVisibility(View.GONE);
+			mPairedDevicesContainer.setVisibility(View.GONE);
 		} else {
 			// Show the paired container
-			mPairedDevicesListView.setVisibility(View.VISIBLE);
+			mPairedDevicesContainer.setVisibility(View.VISIBLE);
 		}
 		for (BluetoothDevice device : bondedDevices) {
 			mPairedDeviceArrayAdapter.add(device);
@@ -410,6 +420,9 @@ public class MainActivity extends Activity {
 	}
 
 	private void stopServer() {
-		mServer.stopServer();
+		if (mServer != null) {
+			mServer.stopServer();
+			mServer = null;
+		}
 	}
 }

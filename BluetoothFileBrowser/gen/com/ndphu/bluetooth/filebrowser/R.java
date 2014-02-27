@@ -5,7 +5,7 @@
  * should not be modified by hand.
  */
 
-package com.example.bluetoothfilebrowser;
+package com.ndphu.bluetooth.filebrowser;
 
 public final class R {
     public static final class attr {
