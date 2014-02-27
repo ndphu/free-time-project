@@ -6,9 +6,9 @@ import ndphu.app.bluetoothfilebrowser.server.IDownloadListener;
 import ndphu.app.bluetoothfilebrowser.service.file.BluetoothFileServiceImpl;
 import ndphu.app.bluetoothfilebrowser.service.file.IFileService;
 import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.app.AlertDialog.Builder;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -16,11 +16,10 @@ import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.example.bluetoothfilebrowser.R;
+import com.ndphu.bluetooth.filebrowser.R;
 
 public class DownloadFileDialog extends DialogFragment implements IDownloadListener {
 

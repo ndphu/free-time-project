@@ -1,10 +1,7 @@
 package ndphu.app.bluetoothfilebrowser.ui.dialog;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
-import ndphu.app.bluetoothfilebrowser.MainActivity;
 import ndphu.app.bluetoothfilebrowser.model.FileObject;
 import ndphu.app.bluetoothfilebrowser.service.file.BluetoothFileServiceImpl;
 import ndphu.app.bluetoothfilebrowser.service.file.IFileService;
@@ -26,7 +23,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.bluetoothfilebrowser.R;
+import com.ndphu.bluetooth.filebrowser.R;
 
 public class FileBrowserDialog extends DialogFragment implements OnClickListener, OnItemClickListener {
 	private ListView mListView;
