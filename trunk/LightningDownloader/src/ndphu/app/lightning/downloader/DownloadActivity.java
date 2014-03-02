@@ -255,7 +255,7 @@ public class DownloadActivity extends Activity {
 				String partFileName = String.format(DownloadActivity.PART_FILE_NAME_FORMAT, mDestFilePath, i);
 				File partFile = new File(partFileName);
 				long partSize = partFile.length();
-				Log.i(TAG, "Joining file " + partFileName);
+				setStatusText("Joining part " + partFileName);
 				InputStream partInputStream = new FileInputStream(partFileName);
 				int read = 0;
 				int total = 0;
