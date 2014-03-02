@@ -273,6 +273,8 @@ public class DownloadActivity extends Activity {
 				}
 				resultSize += total;
 				partInputStream.close();
+				
+				// delete part file
 				partFile.delete();
 			}
 
