@@ -20,13 +20,6 @@
         android:layout_margin="4dp"
         android:text="@string/to" />
 
-    <ProgressBar
-        android:id="@+id/activity_download_file_progressbar"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="4dp" />
-
     <TextView
         android:id="@+id/activity_download_file_textview_file_size"
         android:layout_width="fill_parent"
@@ -34,12 +27,22 @@
         android:layout_margin="4dp"
         android:textAlignment="center" />
 
-    <TextView
-        android:id="@+id/activity_download_file_textview_download_progress"
+    <LinearLayout
+        android:id="@+id/activity_download_container_progress_bars"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="4dp"
-        android:textAlignment="center" />
+        android:layout_weight="0.80"
+        android:orientation="vertical" >
+    </LinearLayout>
+
+    <!--
+         <ProgressBar
+        android:id="@+id/activity_download_file_progressbar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp" />
+    -->
 
     <TextView
         android:id="@+id/activity_download_file_textview_status"

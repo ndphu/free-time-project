@@ -24,13 +24,12 @@ public final class R {
         public static final int ic_launcher=0x7f020000;
     }
     public static final class id {
-        public static final int action_settings=0x7f080007;
-        public static final int activity_download_file_button_cancel=0x7f080006;
-        public static final int activity_download_file_progressbar=0x7f080002;
-        public static final int activity_download_file_textview_download_progress=0x7f080004;
-        public static final int activity_download_file_textview_file_size=0x7f080003;
+        public static final int action_settings=0x7f080006;
+        public static final int activity_download_container_progress_bars=0x7f080003;
+        public static final int activity_download_file_button_cancel=0x7f080005;
+        public static final int activity_download_file_textview_file_size=0x7f080002;
         public static final int activity_download_file_textview_from=0x7f080000;
-        public static final int activity_download_file_textview_status=0x7f080005;
+        public static final int activity_download_file_textview_status=0x7f080004;
         public static final int activity_download_file_textview_to=0x7f080001;
     }
     public static final class layout {
