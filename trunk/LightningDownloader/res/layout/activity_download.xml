@@ -27,13 +27,19 @@
         android:layout_margin="4dp"
         android:textAlignment="center" />
 
-    <LinearLayout
-        android:id="@+id/activity_download_container_progress_bars"
+    <ScrollView
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.80"
-        android:orientation="vertical" >
-    </LinearLayout>
+        android:layout_height="0dp"
+        android:layout_weight="0.8" >
+
+        <LinearLayout
+            android:id="@+id/activity_download_container_progress_bars"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:scrollbars="vertical" >
+        </LinearLayout>
+    </ScrollView>
 
     <!--
          <ProgressBar
@@ -42,7 +48,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_margin="4dp" />
-    -->
+            -->
 
     <TextView
         android:id="@+id/activity_download_file_textview_status"
@@ -53,10 +59,10 @@
 
     <Button
         android:id="@+id/activity_download_file_button_cancel"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="48dp"
         android:layout_margin="4dp"
-        android:text="@string/cancel" 
-        android:onClick="onCancelClick"/>
+        android:onClick="onCancelClick"
+        android:text="@string/cancel" />
 
 </LinearLayout>

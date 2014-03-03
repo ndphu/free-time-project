@@ -57,6 +57,8 @@ public class DownloadActivity extends Activity {
 	long mEndTime;
 	long mMaxPartDownloadDuration = 0;
 	protected boolean mIsRunning = true;
+	
+	private String mCookie = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -124,6 +126,8 @@ public class DownloadActivity extends Activity {
 						Log.i(TAG, header.getName() + ": " + header.getValue());
 						if ("Content-Length".equals(header.getName())) {
 							mFileSize = Long.valueOf(header.getValue());
+						} else if ("Set-Cookie".equals(header.getName())) {
+							mCookie = header.getValue();
 						}
 					}
 
@@ -196,6 +200,9 @@ public class DownloadActivity extends Activity {
 				try {
 					HttpGet httpGet = new HttpGet(mDataString);
 					httpGet.addHeader("Range", "bytes=" + start + "- " + end);
+					if (mCookie != null) {
+						httpGet.addHeader("Cookie", mCookie);
+					}
 					HttpResponse getResponse = new DefaultHttpClient().execute(httpGet);
 					InputStream inputStream = getResponse.getEntity().getContent();
 
