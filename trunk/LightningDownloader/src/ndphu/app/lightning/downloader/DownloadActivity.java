@@ -7,10 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import ndphu.app.lightning.downloader.utils.Utils;
 
@@ -24,10 +21,14 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.util.Log;
+import android.util.SparseIntArray;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -47,7 +48,7 @@ public class DownloadActivity extends Activity {
 	private long mFileSize = -1;
 	private String mDestFilePath;
 
-	private Map<Integer, Integer> mProgressMap = new HashMap<Integer, Integer>();
+	private SparseIntArray mProgressMap = new SparseIntArray();
 	private LinearLayout mProgressBarContainer;
 
 	private List<Integer> mFinishedPartCounter = new ArrayList<Integer>();
@@ -55,11 +56,17 @@ public class DownloadActivity extends Activity {
 	long mStartTime;
 	long mEndTime;
 	long mMaxPartDownloadDuration = 0;
+	protected boolean mIsRunning = true;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_download);
+
+		SharedPreferences defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+		Commons.THREAD_COUNT = Integer.valueOf(defaultSharedPreferences.getString(getResources().getString(R.string.pref_thread_count),
+				Commons.THREAD_COUNT + ""));
 
 		Commons.DEFAULT_DOWNLOAD_DIR = Environment.getExternalStorageDirectory() + "/LightningDownloader";
 		File f = new File(Commons.DEFAULT_DOWNLOAD_DIR);
@@ -169,9 +176,9 @@ public class DownloadActivity extends Activity {
 			@Override
 			public void run() {
 				synchronized (mProgressMap) {
-					for (Entry<Integer, Integer> entry : mProgressMap.entrySet()) {
-						int threadIndex = entry.getKey();
-						((ProgressBar) mProgressBarContainer.getChildAt(threadIndex)).setProgress(entry.getValue());
+					for (int i = 0; i < mProgressMap.size(); ++i) {
+						int progress = mProgressMap.get(i, 0);
+						((ProgressBar) mProgressBarContainer.getChildAt(i)).setProgress(progress);
 					}
 				}
 			}
@@ -179,6 +186,9 @@ public class DownloadActivity extends Activity {
 	}
 
 	private void downloadPart(final int partIndex, final long start, final long end) {
+		if (!mIsRunning) {
+			return;
+		}
 		Log.i(TAG, "download part: " + partIndex + "; start = " + start + "; end = " + end);
 		new Thread(new Runnable() {
 			@Override
@@ -200,7 +210,7 @@ public class DownloadActivity extends Activity {
 					long sizeToDownload = end - start + 1;
 					byte[] buffer = new byte[Commons.BUFFER_SIZE];
 					long startTime = System.currentTimeMillis();
-					while ((read = inputStream.read(buffer)) > 0) {
+					while ((read = inputStream.read(buffer)) > 0 && mIsRunning) {
 						Log.d(TAG, "Part" + partIndex + "::Read: " + read);
 						total += read;
 						Log.d(TAG, "Part" + partIndex + "::Total: " + total);
@@ -273,7 +283,7 @@ public class DownloadActivity extends Activity {
 				}
 				resultSize += total;
 				partInputStream.close();
-				
+
 				// delete part file
 				partFile.delete();
 			}
@@ -296,5 +306,15 @@ public class DownloadActivity extends Activity {
 			}
 		}
 
+	}
+	
+	@Override
+	protected void onDestroy() {
+		mIsRunning = false;
+		super.onDestroy();
+	}
+	
+	public void onCancelClick(View view) {
+		this.finish();
 	}
 }

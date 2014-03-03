@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory
+        android:summary="Configure the download speed"
+        android:title="Speed Settings" >
+        <ListPreference
+            android:entries="@array/settings_thread_count_label"
+            android:entryValues="@array/settings_thread_count_value"
+            android:key="@string/pref_thread_count"
+            android:summary="Number of thread to use to download the file"
+            android:title="Thread count" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

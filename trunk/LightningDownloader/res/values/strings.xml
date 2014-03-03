@@ -6,5 +6,6 @@
     <string name="from">From:</string>
     <string name="to">To:</string>
     <string name="cancel">Cancel</string>
+    <string name="pref_thread_count">pref_thread_count</string>
 
 </resources>
