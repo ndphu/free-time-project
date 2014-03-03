@@ -29,7 +29,7 @@
         <activity
             android:name="ndphu.app.lightning.downloader.DownloadActivity"
             android:label="@string/app_name"
-            android:theme="@android:style/Theme.Dialog" >
+            android:theme="@style/AppDialogTheme" >
             <intent-filter android:label="Download Faster" >
                 <action android:name="android.intent.action.VIEW" />
 
