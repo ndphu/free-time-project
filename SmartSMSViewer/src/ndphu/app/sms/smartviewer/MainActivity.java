@@ -1,10 +1,17 @@
 package ndphu.app.sms.smartviewer;
 
+import java.util.List;
+
 import ndphu.app.sms.smartviewer.model.Contact;
+import ndphu.app.sms.smartviewer.model.SMS;
 import ndphu.app.sms.smartviewer.service.SMSService;
-import ndphu.app.sms.smartviewer.ui.fragment.SMSListDialogFragment;
+import ndphu.app.sms.smartviewer.ui.fragment.GroupByDateFragment;
+import ndphu.app.sms.smartviewer.ui.fragment.SMSListFragment;
+import ndphu.app.sms.smartviewer.ui.fragment.GroupByDateFragment.OnDateSelectedListener;
 import android.app.Activity;
 import android.app.FragmentManager;
+import android.app.FragmentManager.BackStackEntry;
+import android.app.FragmentTransaction;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -17,22 +24,28 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements OnDateSelectedListener {
+	private static final String TAG_GROUP_BY_DATE = "TAG_GROUP_BY_DATE";
+	private static final String TAG_VIEW_SMS_LIST = "TAG_VIEW_SMS_LIST";
 	private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
 	private ActionBarDrawerToggle mDrawerToggle;
 
 	private CharSequence mDrawerTitle;
 	private CharSequence mTitle;
-	private String[] mPlanetTitles;
+	private String[] mConversationLabelArray;
 
 	private SMSService mSMSService;
+	private FragmentManager mFragmentManager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		mFragmentManager = getFragmentManager();
 
 		mSMSService = new SMSService();
 		mSMSService.setContext(this);
@@ -40,16 +53,16 @@ public class MainActivity extends Activity {
 
 		mTitle = mDrawerTitle = getTitle();
 
-		mPlanetTitles = new String[mSMSService.getContactList().size()];
+		mConversationLabelArray = new String[mSMSService.getContactList().size()];
 		for (int i = 0; i < mSMSService.getContactList().size(); ++i) {
-			mPlanetTitles[i] = mSMSService.getContactList().get(i).getName();
+			mConversationLabelArray[i] = mSMSService.getContactList().get(i).getName();
 		}
 
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
 		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-		mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, mPlanetTitles));
+		mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, mConversationLabelArray));
 		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
 		// enable ActionBar app icon to behave as action to toggle nav drawer
@@ -66,12 +79,14 @@ public class MainActivity extends Activity {
 		) {
 			public void onDrawerClosed(View view) {
 				getActionBar().setTitle(mTitle);
-				invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+				invalidateOptionsMenu(); // creates call to
+											// onPrepareOptionsMenu()
 			}
 
 			public void onDrawerOpened(View drawerView) {
 				getActionBar().setTitle(mDrawerTitle);
-				invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+				invalidateOptionsMenu(); // creates call to
+											// onPrepareOptionsMenu()
 			}
 		};
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
@@ -79,7 +94,7 @@ public class MainActivity extends Activity {
 		if (savedInstanceState == null) {
 			selectItem(0);
 		}
-		
+
 		mDrawerLayout.openDrawer(mDrawerList);
 	}
 
@@ -113,16 +128,16 @@ public class MainActivity extends Activity {
 	}
 
 	private void selectItem(int position) {
-		SMSListDialogFragment fragment = new SMSListDialogFragment();
+		GroupByDateFragment fragment = new GroupByDateFragment();
 
 		Contact contact = mSMSService.getContactList().get(position);
 		fragment.setContact(contact);
 
 		FragmentManager fragmentManager = getFragmentManager();
-		fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+		fragmentManager.beginTransaction().replace(R.id.content_frame, fragment, TAG_GROUP_BY_DATE).commit();
 
 		mDrawerList.setItemChecked(position, true);
-		setTitle(mPlanetTitles[position]);
+		setTitle(mConversationLabelArray[position]);
 		mDrawerLayout.closeDrawer(mDrawerList);
 	}
 
@@ -144,6 +159,16 @@ public class MainActivity extends Activity {
 		super.onConfigurationChanged(newConfig);
 		// Pass any configuration change to the drawer toggls
 		mDrawerToggle.onConfigurationChanged(newConfig);
+	}
+
+	@Override
+	public void onDateClick(String date, List<SMS> listToDisplay) {
+		SMSListFragment smsListFragment = new SMSListFragment();
+		smsListFragment.setListToDisplay(listToDisplay);
+		FragmentTransaction transaction = mFragmentManager.beginTransaction();
+		transaction.replace(R.id.content_frame, smsListFragment, TAG_VIEW_SMS_LIST);
+		transaction.addToBackStack(null);
+		transaction.commit();
 	}
 
 }
