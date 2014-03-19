@@ -4,6 +4,7 @@ import ndphu.app.sms.smartviewer.R;
 import ndphu.app.sms.smartviewer.model.SMS;
 import ndphu.app.sms.smartviewer.utils.Utils;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +36,12 @@ public class MessageAdapter extends ArrayAdapter<SMS> {
 
 		SMS sms = getItem(position);
 		holder.content.setText(sms.getBody());
-		holder.timeStamp.setText(Utils.getDate(Long.valueOf(sms.getDate()), "dd-MMM-yy hh:mm:ss"));
+		holder.timeStamp.setText(Utils.getDate(Long.valueOf(sms.getDate()), "dd/MMM/yy hh:mm:ss a"));
+		if (sms.getType().equals("2")) {
+			convertView.setBackgroundResource(R.drawable.drop_shadow);
+		} else {
+			convertView.setBackgroundResource(R.drawable.drop_shadow_grey);
+		}
 		return convertView;
 	}
 
