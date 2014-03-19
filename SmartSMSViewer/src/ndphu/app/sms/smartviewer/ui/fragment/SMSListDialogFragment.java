@@ -1,7 +1,9 @@
 package ndphu.app.sms.smartviewer.ui.fragment;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 import ndphu.app.sms.smartviewer.R;
 import ndphu.app.sms.smartviewer.model.Contact;
@@ -11,7 +13,6 @@ import android.app.DialogFragment;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.Telephony.Sms;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,12 +23,11 @@ public class SMSListDialogFragment extends DialogFragment {
 	private Contact mContact;
 	private ListView mSmsList;
 	private MessageAdapter mMessageAdapter;
+	
+	private static final long MILISEC_OF_DAY = 86400000;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		
-		getDialog().setTitle(mContact.getName());
-		
 		View view = inflater.inflate(R.layout.fragment_sms_list, container, false);
 		mSmsList = (ListView) view.findViewById(R.id.fragment_sms_list_listview_sms);
 		mMessageAdapter = new MessageAdapter(getActivity(), 0);
@@ -54,9 +54,20 @@ public class SMSListDialogFragment extends DialogFragment {
 				return lhs.getDate().compareTo(rhs.getDate());
 			}
 		});
+		
+		SMS firstMessage = mContact.getSmsList().get(0);
+		long firstDateLong = Long.valueOf(firstMessage.getDate());
+		long firstAbsDate = firstDateLong / MILISEC_OF_DAY;
+		
+		SMS lastMessage = mContact.getSmsList().get(mContact.getSmsList().size() - 1);
+		long lastDateLong = Long.valueOf(lastMessage.getDate());
+		long lastAbsDate = lastDateLong / MILISEC_OF_DAY;
+		
+		
 		for (SMS sms : mContact.getSmsList()) {
 			mMessageAdapter.add(sms);
 		}
+		
 	}
 
 	public void setContact(Contact contact) {
