@@ -1,128 +1,149 @@
 package ndphu.app.sms.smartviewer;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import ndphu.app.sms.smartviewer.model.Contact;
-import ndphu.app.sms.smartviewer.model.SMS;
+import ndphu.app.sms.smartviewer.service.SMSService;
 import ndphu.app.sms.smartviewer.ui.fragment.SMSListDialogFragment;
-import ndphu.app.sms.smartviewer.ui.list.ContactAdapter;
 import android.app.Activity;
-import android.database.Cursor;
-import android.net.Uri;
+import android.app.FragmentManager;
+import android.content.res.Configuration;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.util.Log;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-public class MainActivity extends Activity implements OnItemClickListener {
+public class MainActivity extends Activity {
+	private DrawerLayout mDrawerLayout;
+	private ListView mDrawerList;
+	private ActionBarDrawerToggle mDrawerToggle;
 
-	String Inbox = "content://sms/inbox";
-	String Failed = "content://sms/failed";
-	String Queued = "content://sms/queued";
-	String Sent = "content://sms/sent";
-	String Draft = "content://sms/draft";
-	String Outbox = "content://sms/outbox";
-	String Undelivered = "content://sms/undelivered";
-	String All = "content://sms/all";
-	String Conversations = "content://sms/conversations";
-	private Cursor mInboxCursor;
+	private CharSequence mDrawerTitle;
+	private CharSequence mTitle;
+	private String[] mPlanetTitles;
 
-	List<Contact> mContactList = new ArrayList<Contact>();
-	List<Contact> mAllContact = new ArrayList<Contact>();
-
-	private ListView mListView;
-	private ContactAdapter mContactAdapter;
+	private SMSService mSMSService;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		mListView = (ListView) findViewById(R.id.main_activity_listview_contact);
-		mListView.setOnItemClickListener(this);
-		mContactAdapter = new ContactAdapter(this, 0);
-		mListView.setAdapter(mContactAdapter);
+		mSMSService = new SMSService();
+		mSMSService.setContext(this);
+		mSMSService.init();
 
-		initContactListCache();
+		mTitle = mDrawerTitle = getTitle();
 
-		mInboxCursor = getContentResolver().query(Uri.parse(Inbox), null, null, null, null);
-
-		if (mInboxCursor.moveToFirst()) {
-			for (int i = 0; i < mInboxCursor.getColumnCount(); i++) {
-				Log.i("SMSTAG", mInboxCursor.getColumnName(i) + ": " + mInboxCursor.getString(i));
-			}
-			for (int i = 0; i < mInboxCursor.getCount(); ++i) {
-				SMS sms = SMS.parseFromCursor(mInboxCursor);
-				Contact contact = findContactByNumber(sms.getAddress());
-				contact.getSmsList().add(sms);
-				mInboxCursor.moveToNext();
-			}
+		mPlanetTitles = new String[mSMSService.getContactList().size()];
+		for (int i = 0; i < mSMSService.getContactList().size(); ++i) {
+			mPlanetTitles[i] = mSMSService.getContactList().get(i).getName();
 		}
-	}
 
-	private void initContactListCache() {
-		Cursor phones = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
-		while (phones.moveToNext()) {
-			String id = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone._ID));
-			String name = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
-			String phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-			phoneNumber = phoneNumber.replace("-", "").replace(" ", "");
-			if (phoneNumber.startsWith("0")) {
-				phoneNumber = phoneNumber.substring(1);
-			}
-			if (!phoneNumber.startsWith("+84")) {
-				phoneNumber = "+84" + phoneNumber;
-			}
-			Contact contact = new Contact(id, name, phoneNumber);
-			mAllContact.add(contact);
-			Log.i("CONTACTSTAG", contact.getName() + ";" + contact.getNumber());
-		}
-	}
+		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+		mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
-	@Override
-	protected void onResume() {
-		super.onResume();
-		mContactAdapter.clear();
-		for (Contact contact : mContactList) {
-			mContactAdapter.add(contact);
-		}
-	}
+		mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+		mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, mPlanetTitles));
+		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
-	private Contact findContactByNumber(String number) {
-		for (Contact contact : mContactList) {
-			if (contact.getNumber().equals(number)) {
-				return contact;
+		// enable ActionBar app icon to behave as action to toggle nav drawer
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+		getActionBar().setHomeButtonEnabled(true);
+
+		// ActionBarDrawerToggle ties together the the proper interactions
+		// between the sliding drawer and the action bar app icon
+		mDrawerToggle = new ActionBarDrawerToggle(this, /* host Activity */
+		mDrawerLayout, /* DrawerLayout object */
+		R.drawable.ic_drawer, /* nav drawer image to replace 'Up' caret */
+		R.string.drawer_open, /* "open drawer" description for accessibility */
+		R.string.drawer_close /* "close drawer" description for accessibility */
+		) {
+			public void onDrawerClosed(View view) {
+				getActionBar().setTitle(mTitle);
+				invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
 			}
-		}
-		// search in all contact list
-		for (Contact contact : mAllContact) {
-			if (contact.getNumber().equals(number)) {
-				mContactList.add(contact);
-				return contact;
+
+			public void onDrawerOpened(View drawerView) {
+				getActionBar().setTitle(mDrawerTitle);
+				invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
 			}
+		};
+		mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+		if (savedInstanceState == null) {
+			selectItem(0);
 		}
-		Contact unmanagedContact = new Contact("0", number, number);
-		mContactList.add(unmanagedContact);
-		return unmanagedContact;
+		
+		mDrawerLayout.openDrawer(mDrawerList);
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.main, menu);
+		return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		Contact contact = mContactAdapter.getItem(position);
-		SMSListDialogFragment dialogFragment = new SMSListDialogFragment();
-		dialogFragment.setContact(contact);
-		dialogFragment.show(getFragmentManager(), "SMS_LIST_FRAGMENT");
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// The action bar home/up action should open or close the drawer.
+		// ActionBarDrawerToggle will take care of this.
+		if (mDrawerToggle.onOptionsItemSelected(item)) {
+			return true;
+		}
+		// Handle action buttons
+		switch (item.getItemId()) {
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+
+	/* The click listner for ListView in the navigation drawer */
+	private class DrawerItemClickListener implements ListView.OnItemClickListener {
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			selectItem(position);
+		}
+	}
+
+	private void selectItem(int position) {
+		SMSListDialogFragment fragment = new SMSListDialogFragment();
+
+		Contact contact = mSMSService.getContactList().get(position);
+		fragment.setContact(contact);
+
+		FragmentManager fragmentManager = getFragmentManager();
+		fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+
+		mDrawerList.setItemChecked(position, true);
+		setTitle(mPlanetTitles[position]);
+		mDrawerLayout.closeDrawer(mDrawerList);
+	}
+
+	@Override
+	public void setTitle(CharSequence title) {
+		mTitle = title;
+		getActionBar().setTitle(mTitle);
+	}
+
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+		// Sync the toggle state after onRestoreInstanceState has occurred.
+		mDrawerToggle.syncState();
+	}
+
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		// Pass any configuration change to the drawer toggls
+		mDrawerToggle.onConfigurationChanged(newConfig);
 	}
 
 }

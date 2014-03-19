@@ -58,6 +58,26 @@
                     android:scheme="http" />
                 <data
                     android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.zip"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.zip"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.zip"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.zip"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.zip"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
                     android:pathPattern=".*\\.rar"
                     android:scheme="http" />
                 <data
@@ -75,6 +95,26 @@
                 <data
                     android:host="*"
                     android:pathPattern=".*\\..*\\..*\\..*\\..*\\.rar"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.rar"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.rar"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.rar"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.rar"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.rar"
                     android:scheme="http" />
                 <data
                     android:host="*"
@@ -98,6 +138,26 @@
                     android:scheme="http" />
                 <data
                     android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.7z"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.7z"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.7z"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.7z"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.7z"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
                     android:pathPattern=".*\\.mp3"
                     android:scheme="http" />
                 <data
@@ -115,6 +175,26 @@
                 <data
                     android:host="*"
                     android:pathPattern=".*\\..*\\..*\\..*\\..*\\.mp3"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.mp3"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.mp3"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.mp3"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.mp3"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.mp3"
                     android:scheme="http" />
                 <data
                     android:host="*"
@@ -138,6 +218,26 @@
                     android:scheme="http" />
                 <data
                     android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.mp4"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.mp4"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.mp4"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.mp4"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.mp4"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
                     android:pathPattern=".*\\.wmv"
                     android:scheme="http" />
                 <data
@@ -155,6 +255,26 @@
                 <data
                     android:host="*"
                     android:pathPattern=".*\\..*\\..*\\..*\\..*\\.wmv"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.wmv"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.wmv"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.wmv"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.wmv"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.wmv"
                     android:scheme="http" />
                 <data
                     android:host="*"
@@ -178,6 +298,26 @@
                     android:scheme="http" />
                 <data
                     android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.wma"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.wma"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.wma"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.wma"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.wma"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
                     android:pathPattern=".*\\.tar"
                     android:scheme="http" />
                 <data
@@ -195,6 +335,26 @@
                 <data
                     android:host="*"
                     android:pathPattern=".*\\..*\\..*\\..*\\..*\\.tar"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.tar"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.tar"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.tar"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.tar"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.tar"
                     android:scheme="http" />
                 <data
                     android:host="*"
@@ -218,6 +378,26 @@
                     android:scheme="http" />
                 <data
                     android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.gz"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.gz"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.gz"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.gz"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.gz"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
                     android:pathPattern=".*\\.img"
                     android:scheme="http" />
                 <data
@@ -235,6 +415,26 @@
                 <data
                     android:host="*"
                     android:pathPattern=".*\\..*\\..*\\..*\\..*\\.img"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.img"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.img"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.img"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.img"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.img"
                     android:scheme="http" />
                 <data
                     android:host="*"
@@ -258,6 +458,26 @@
                     android:scheme="http" />
                 <data
                     android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.apk"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.apk"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.apk"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.apk"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.apk"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
                     android:pathPattern=".*\\.exe"
                     android:scheme="http" />
                 <data
@@ -275,6 +495,26 @@
                 <data
                     android:host="*"
                     android:pathPattern=".*\\..*\\..*\\..*\\..*\\.exe"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.exe"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.exe"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.exe"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.exe"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.exe"
                     android:scheme="http" />
                 <data
                     android:host="*"
@@ -298,6 +538,26 @@
                     android:scheme="http" />
                 <data
                     android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.flac"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.flac"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.flac"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.flac"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.flac"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
                     android:pathPattern=".*\\.doc"
                     android:scheme="http" />
                 <data
@@ -315,6 +575,26 @@
                 <data
                     android:host="*"
                     android:pathPattern=".*\\..*\\..*\\..*\\..*\\.doc"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.doc"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.doc"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.doc"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.doc"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.doc"
                     android:scheme="http" />
                 <data
                     android:host="*"
@@ -338,6 +618,26 @@
                     android:scheme="http" />
                 <data
                     android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.docx"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.docx"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.docx"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.docx"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.docx"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
                     android:pathPattern=".*\\.bin"
                     android:scheme="http" />
                 <data
@@ -355,6 +655,26 @@
                 <data
                     android:host="*"
                     android:pathPattern=".*\\..*\\..*\\..*\\..*\\.bin"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.bin"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.bin"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.bin"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.bin"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.bin"
                     android:scheme="http" />
                 <data
                     android:host="*"
@@ -378,6 +698,26 @@
                     android:scheme="http" />
                 <data
                     android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.xls"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.xls"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.xls"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.xls"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.xls"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
                     android:pathPattern=".*\\.xlsx"
                     android:scheme="http" />
                 <data
@@ -395,6 +735,26 @@
                 <data
                     android:host="*"
                     android:pathPattern=".*\\..*\\..*\\..*\\..*\\.xlsx"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.xlsx"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.xlsx"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.xlsx"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.xlsx"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.xlsx"
                     android:scheme="http" />
                 <data
                     android:host="*"
@@ -418,6 +778,26 @@
                     android:scheme="http" />
                 <data
                     android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.ppt"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.ppt"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.ppt"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.ppt"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.ppt"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
                     android:pathPattern=".*\\.pptx"
                     android:scheme="http" />
                 <data
@@ -435,6 +815,26 @@
                 <data
                     android:host="*"
                     android:pathPattern=".*\\..*\\..*\\..*\\..*\\.pptx"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.pptx"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.pptx"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pptx"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pptx"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pptx"
                     android:scheme="http" />
                 <data
                     android:host="*"
@@ -458,6 +858,26 @@
                     android:scheme="http" />
                 <data
                     android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.pdf"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.pdf"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pdf"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pdf"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.pdf"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
                     android:pathPattern=".*\\.sh"
                     android:scheme="http" />
                 <data
@@ -475,6 +895,26 @@
                 <data
                     android:host="*"
                     android:pathPattern=".*\\..*\\..*\\..*\\..*\\.sh"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.sh"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.sh"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.sh"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.sh"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.sh"
                     android:scheme="http" />
                 <data
                     android:host="*"
@@ -498,6 +938,26 @@
                     android:scheme="http" />
                 <data
                     android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.ksh"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.ksh"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.ksh"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.ksh"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.ksh"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
                     android:pathPattern=".*\\.msc"
                     android:scheme="http" />
                 <data
@@ -515,6 +975,26 @@
                 <data
                     android:host="*"
                     android:pathPattern=".*\\..*\\..*\\..*\\..*\\.msc"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.msc"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.msc"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.msc"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.msc"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.msc"
                     android:scheme="http" />
                 <data
                     android:host="*"
@@ -538,6 +1018,26 @@
                     android:scheme="http" />
                 <data
                     android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.txt"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.txt"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.txt"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.txt"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.txt"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
                     android:pathPattern=".*\\.log"
                     android:scheme="http" />
                 <data
@@ -555,6 +1055,26 @@
                 <data
                     android:host="*"
                     android:pathPattern=".*\\..*\\..*\\..*\\..*\\.log"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\.log"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\.log"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.log"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.log"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:pathPattern=".*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\..*\\.log"
                     android:scheme="http" />
             </intent-filter>
         </activity>
