@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	version="2.5">
+	<servlet>
+		<servlet-name>Send_It_Now</servlet-name>
+		<servlet-class>ndphu.app.gae.senditnow.Send_It_NowServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Send_It_Now</servlet-name>
+		<url-pattern>/send_it_now</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>LoginRequiredServlet</servlet-name>
+		<servlet-class>ndphu.app.gae.senditnow.LoginRequiredServlet
+		</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>LoginRequiredServlet</servlet-name>
+		<url-pattern>/login</url-pattern>
+	</servlet-mapping>
+</web-app>
