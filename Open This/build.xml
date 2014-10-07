@@ -1,0 +1,40 @@
+<?xml version='1.0'?>
+<project name="app" default="help" basedir=".">
+	<target name="help">
+		<echo>Ant file to build qooxdoo application "app"</echo>
+	</target>
+	<property file="build.properties" />
+	<property name="dist.dir" value="${basedir}/war" />
+	<property name="client.application" value="${basedir}/qooxdoo/app" />
+
+	<target name="qooxdoo.clean">
+		<delete dir="${client.application}/build"></delete>
+	</target>
+
+	<target name="client.generate-source" depends="qooxdoo.clean">
+		<exec executable="python" dir="${client.application}">
+			<arg value="generate.py" />
+			<arg value="source" />
+		</exec>
+	</target>
+	<target name="client.generate-build"  depends="qooxdoo.clean">
+		<exec executable="python" dir="${client.application}">
+			<arg value="generate.py" />
+			<arg value="build" />
+		</exec>
+	</target>
+	<target name="build.qooxdoo" depends="client.generate-build">
+		<copy todir="${dist.dir}">
+			<fileset dir="${client.application}/build">
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="build.qooxdoo.src" depends="client.generate-source">
+		<copy todir="${dist.dir}">
+			<fileset dir="${client.application}/build">
+			</fileset>
+		</copy>
+	</target>
+	<target name="dist" depends="build.qooxdoo"></target>
+</project>
