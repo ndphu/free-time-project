@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="2dp" >
+
+    <TextView
+        android:id="@+id/listview_item_link_details_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/listview_item_link_details_btn_open_link"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/listview_item_link_details_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/listview_item_link_details_name"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/listview_item_link_details_link"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/listview_item_link_details_desc"
+        android:text="Link"
+        android:textSize="11sp" />
+
+    <TextView
+        android:id="@+id/listview_item_link_details_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/listview_item_link_details_link"
+        android:text="Time"
+        android:textSize="11sp" />
+
+    <TextView
+        android:id="@+id/listview_item_link_details_owner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/listview_item_link_details_link"
+        android:text="Owner"
+        android:textSize="11sp"
+        android:textStyle="bold" />
+
+</RelativeLayout>
