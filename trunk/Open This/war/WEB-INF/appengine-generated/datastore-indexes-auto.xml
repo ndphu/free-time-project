@@ -1,0 +1,18 @@
+<!-- Indices written at Wed, 8 Oct 2014 00:07:01 ICT -->
+
+<datastore-indexes>
+
+    <!-- Used 2 times in query history -->
+    <datastore-index kind="Link" ancestor="true" source="auto">
+        <property name="shared" direction="asc"/>
+        <property name="email" direction="asc"/>
+        <property name="timeStamp" direction="desc"/>
+    </datastore-index>
+
+    <!-- Used 1 time in query history -->
+    <datastore-index kind="Link" ancestor="true" source="auto">
+        <property name="email" direction="asc"/>
+        <property name="timeStamp" direction="desc"/>
+    </datastore-index>
+
+</datastore-indexes>
