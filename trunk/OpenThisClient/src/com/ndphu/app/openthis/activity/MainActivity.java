@@ -2,6 +2,7 @@ package com.ndphu.app.openthis.activity;
 
 import ndphu.app.openthis.R;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -18,6 +19,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.ndphu.app.openthis.activity.CookieValidator.CookieValidatorListener;
 import com.ndphu.app.openthis.fragment.AccountSettingsFragment;
 import com.ndphu.app.openthis.fragment.LinkListFragment;
 
@@ -31,7 +33,7 @@ public class MainActivity extends FragmentActivity {
 	private ActionBarDrawerToggle mDrawerToggle;
 	private CharSequence mDrawerTitle;
 	private LinkListFragment currentFragment;
-	private boolean isInitialized = false;
+	private SharedPreferences mPrefAppInfo;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -46,19 +48,37 @@ public class MainActivity extends FragmentActivity {
 				android.R.id.text1, menuItems));
 		mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 		initDrawerToggle();
-		if (AppInfo.COOKIE == null || AppInfo.CURRENT_USER == null) {
-			popupLoginRequireDialog();
+		mPrefAppInfo = getSharedPreferences(AppInfo.PREF_APP_INFO, MODE_PRIVATE);
+		String savedCookie = mPrefAppInfo.getString(AppInfo.PREF_APP_INFO_KEY_COOKIE, "");
+		if (savedCookie != null && savedCookie.length() > 0) {
+			// Validate cookie
+			CookieValidator validator = new CookieValidator(new CookieValidatorListener() {
+				
+				@Override
+				public void onSuccess(String cookie) {
+					AppInfo.COOKIE = cookie;
+					AppInfo.COOKIE_VALIDATED = true;
+					selectItem(0);
+				}
+				
+				@Override
+				public void onFailed(String cookie) {
+					AppInfo.COOKIE = null;
+					AppInfo.COOKIE_VALIDATED = false;
+					popupLoginRequireDialog();
+				}
+			});
+			validator.setCookie(savedCookie);
+			validator.setActivity(this);
+			validator.execute();
 		} else {
-			initData();
+			openLoginActivity();
 		}
 	}
 
-	private void initData() {
-		if (!isInitialized) {
-			Toast.makeText(MainActivity.this, "Welcome " + AppInfo.CURRENT_USER.getEmail(), Toast.LENGTH_SHORT).show();
-			selectItem(0);
-			isInitialized = true;
-		}
+	@Override
+	protected void onResume() {
+		super.onResume();
 	}
 
 	private void initDrawerToggle() {
@@ -179,14 +199,6 @@ public class MainActivity extends FragmentActivity {
 	public void setTitle(CharSequence title) {
 		mTitle = title;
 		getActionBar().setTitle(mTitle);
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-		if (!isInitialized) {
-			initData();
-		}
 	}
 
 	private void popupLoginRequireDialog() {
